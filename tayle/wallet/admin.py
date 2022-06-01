@@ -1,3 +1,13 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import Wallet, Transfer
+
+
+@admin.register(Wallet)
+class WalletAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(Transfer)
+class TransferAdmin(admin.ModelAdmin):
+    pass
