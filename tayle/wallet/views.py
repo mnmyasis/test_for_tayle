@@ -1,7 +1,10 @@
+from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
 from .forms import TransferForm
+
+COUNT_TRANSFER = 10
 
 
 def index(request):
@@ -21,3 +24,27 @@ def transfer(request):
         'form': form
     }
     return render(request, 'wallet/transfer.html', context)
+
+
+def transfer_list(request):
+    search = {}
+    if request.GET.get('dst_wallet'):
+        search['dst_wallet__name__icontains'] = request.GET.get('dst_wallet')
+    if request.GET.get('src_wallet'):
+        search['src_wallet'] = request.GET.get('src_wallet')
+    if request.GET.get('score'):
+        search['score'] = float(request.GET.get('score'))
+    if request.GET.get('created_at'):
+        search['created_at'] = request.GET.get('created_at')
+
+    if search:
+        transfers = request.user.transfers.filter(**search)
+    else:
+        transfers = request.user.transfers.all()
+    paginator = Paginator(transfers, COUNT_TRANSFER)
+    num_page = request.GET.get('page')
+    page_obj = paginator.get_page(num_page)
+    context = {
+        'page_obj': page_obj
+    }
+    return render(request, 'wallet/transfer_list.html', context)

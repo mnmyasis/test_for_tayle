@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% block title %}Transfers{% endblock %}
+{% block content %}
+<form>
+  <div class="row">
+    <div class="col-2">
+      <select class="form-select form-select-sm"
+              aria-label=".form-select-sm example"
+              name="src_wallet">
+        <option value="" selected>Мои счета</option>
+        {% for wallet in user.wallets.all %}
+        <option value="{{ wallet.pk }}">{{ wallet.name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="col-4">
+      <div class="input-group input-group-sm mb-3">
+        <span class="input-group-text" id="inputGroup-sizing-sm">Поиск по счетам получателя</span>
+        <input type="text" class="form-control"
+               aria-label="Sizing example input"
+               aria-describedby="inputGroup-sizing-sm"
+               name="dst_wallet">
+      </div>
+    </div>
+    <div class="col-2">
+      <div class="input-group input-group-sm mb-3">
+        <span class="input-group-text"
+              id="inputGroup-sizing-sm">Сумма превода</span>
+        <input type="text"
+               class="form-control"
+               aria-label="Sizing example input"
+               aria-describedby="inputGroup-sizing-sm"
+               name="score">
+      </div>
+    </div>
+    <div class="col-2">
+      <div class="input-group input-group-sm mb-3">
+        <span class="input-group-text" id="inputGroup-sizing-sm">Дата</span>
+        <input type="text" class="form-control"
+               aria-label="Sizing example input"
+               aria-describedby="inputGroup-sizing-sm"
+               name="created_at">
+      </div>
+    </div>
+    <button type="submit">Поиск</button>
+  </div>
+</form>
+<div class="row">
+  <div col-12>
+    <table class="table">
+      <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Дата</th>
+        <th scope="col">Отправитель</th>
+        <th scope="col">Кошелек Отправителя</th>
+        <th scope="col">Стоимость</th>
+        <th scope="col">Получатель</th>
+        <th scope="col">Кошелек Получателя</th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for obj in page_obj %}
+      <tr>
+        <th scope="row">{{ obj.pk }}</th>
+        <td>{{ obj.created_at|date:"Y-m-d H:i" }}</td>
+        <td>{{ obj.user }}</td>
+        <td>
+          {% for wallet in obj.src_wallet.all %}
+          {{ wallet }}
+          {% endfor %}
+        </td>
+        <td>{{ obj.score }}</td>
+        <td>{{ obj.dst_wallet.user.username }}</td>
+        <td>{{ obj.dst_wallet.name }}</td>
+      </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    {% include 'includes/paginator.html' %}
+  </div>
+</div>
+{% endblock %}
