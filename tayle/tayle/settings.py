@@ -10,6 +10,7 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
+    'core.apps.CoreConfig',
     'wallet.apps.WalletConfig',
     'django.contrib.admin',
     'django.contrib.auth',
