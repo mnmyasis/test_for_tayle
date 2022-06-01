@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% block title %}Transfers{% endblock %}
 {% block content %}
+{% load tz %}
 <form>
   <div class="row">
     <div class="col-2">
@@ -67,7 +68,7 @@
             {{ obj.pk }}
           </a>
         </th>
-        <td>{{ obj.created_at|date:"Y-m-d H:i" }}</td>
+        <td>{{ obj.created_at|timezone:"Europe/Moscow"|date:"Y-m-d H:i" }}</td>
         <td>{{ obj.user }}</td>
         <td>
           {% for wallet in obj.src_wallet.all %}
