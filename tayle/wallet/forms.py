@@ -26,7 +26,7 @@ class TransferForm(forms.ModelForm):
         }
 
     def debiting_money(self) -> List[Wallet]:
-        wallets = self.cleaned_data['src_wallet']
+        wallets = self.cleaned_data.get('src_wallet')
         score = self.cleaned_data['score']
         wallet_count = wallets.count()
         for wallet in wallets:
@@ -34,6 +34,8 @@ class TransferForm(forms.ModelForm):
         return wallets
 
     def clean_score(self) -> float:
+        if not self.cleaned_data.get('src_wallet'):
+            return self.cleaned_data['score']
         wallets = self.debiting_money()
         for wallet in wallets:
             if wallet.balance < 0:
