@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
 from django.urls import reverse
@@ -13,6 +14,7 @@ def index(request):
     return render(request, 'wallet/index.html', {})
 
 
+@login_required
 def transfer(request):
     form = TransferForm(request.POST or None,
                         user=request.user)
@@ -28,6 +30,7 @@ def transfer(request):
     return render(request, 'wallet/transfer.html', context)
 
 
+@login_required
 def transfer_list(request):
     search = {}
     if request.GET.get('dst_wallet'):
