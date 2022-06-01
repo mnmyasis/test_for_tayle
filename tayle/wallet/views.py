@@ -1,8 +1,10 @@
 from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
 from django.urls import reverse
+from django.views.generic import DetailView
 
 from .forms import TransferForm
+from .models import Transfer
 
 COUNT_TRANSFER = 10
 
@@ -48,3 +50,8 @@ def transfer_list(request):
         'page_obj': page_obj
     }
     return render(request, 'wallet/transfer_list.html', context)
+
+
+class TransferDetailView(DetailView):
+    model = Transfer
+    template_name = 'wallet/transfer_detail.html'

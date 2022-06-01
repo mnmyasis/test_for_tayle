@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}Transfer detail{% endblock %}
+{% block content %}
+<div class="row">
+  <div class="col-4">
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">Пользователь: {{ object.user }}</li>
+      {% for wallet in object.src_wallet.all %}
+        <li class="list-group-item">Счет: {{ wallet.name }}</li>
+      {% endfor %}
+      <li class="list-group-item">Счет получателя: {{ object.dst_wallet }}</li>
+      <li class="list-group-item">Получатель: {{ object.dst_wallet.user }}</li>
+      <li class="list-group-item">
+        Дата: {{ object.created_at|date:"Y-m-d H:i" }}
+      </li>
+      <li class="list-group-item">Сумма: {{ object.score }}</li>
+    </ul>
+  </div>
+</div>
+{% endblock %}
