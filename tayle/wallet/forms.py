@@ -48,8 +48,11 @@ class TransferForm(forms.ModelForm):
 
     def save(self, commit=True):
         obj = super().save(commit)
-        wallets = self.debiting_money()
-        for wallet in wallets:
+        self.cleaned_data['dst_wallet'].balance = (
+                self.cleaned_data['dst_wallet'].balance +
+                self.cleaned_data['score'])
+        self.cleaned_data['dst_wallet'].save()
+        for wallet in self.cleaned_data['src_wallet']:
             wallet.save()
         return obj
 
