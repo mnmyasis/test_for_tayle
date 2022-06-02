@@ -4,11 +4,12 @@ from os import environ
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = environ.get('SECRET_KEY')
+SECRET_KEY = environ.get('SECRET_KEY', default='qwe')
 
 DEBUG = int(environ.get('DEBUG', default=0))
 
-ALLOWED_HOSTS = environ.get('ALLOWED_HOSTS').split(' ')
+ALLOWED_HOSTS = environ.get('ALLOWED_HOSTS',
+                            default='localhost 127.0.0.1').split(' ')
 
 INSTALLED_APPS = [
     'core.apps.CoreConfig',

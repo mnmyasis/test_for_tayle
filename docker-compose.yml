@@ -1,0 +1,20 @@
+version: '3.1'
+services:
+  tayle:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    restart: always
+    volumes:
+      - ./:/app
+    env_file:
+      - ./tayle/.env.dev
+    ports:
+      - 8000:8000
+    command: bash -c "
+      ls &&
+      sh init.sh &&
+      cd tayle &&
+      python manage.py test &&
+      python manage.py runserver 0.0.0.0:8000
+      "
