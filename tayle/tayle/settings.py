@@ -1,13 +1,14 @@
 import os
 from pathlib import Path
+from os import environ
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-uo%1h9xsxcj@9%!23dg4pg!r9nkmn1)7_=#*lha@()9whduki3'
+SECRET_KEY = environ.get('SECRET_KEY')
 
-DEBUG = True
+DEBUG = int(environ.get('DEBUG', default=0))
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = environ.get('ALLOWED_HOSTS').split(' ')
 
 INSTALLED_APPS = [
     'core.apps.CoreConfig',
@@ -86,3 +87,7 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'wallet:index'
